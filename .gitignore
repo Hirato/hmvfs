@@ -1,0 +1,22 @@
+# ignore compiled objects
+*.o
+*.gch
+*.a
+
+# and backups
+*.orig
+*.rej
+*.bak
+*~
+
+# and temporaries
+*.kate-swp
+
+# and some misc text formats
+*.diff
+*.patch
+
+# and binaries
+*.dbg
+*.bin
+*.exe
