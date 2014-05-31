@@ -161,6 +161,9 @@ void fs_grow(fs_t *fs, size_t blocks) {
     for (size_t i = 0; i < fs->header.blocks - lastblocks; i++)
         for (size_t j = 0; j < sizeof(fs_block_t) + fs->header.blocksize; j++)
             fputc(0x00, fs->file);
+
+    fs->blocks += blocks;
+    printf("grew file system %zu => %zu\n", lastblocks, fs->header.blocks);
 }
 
 void fs_write(fs_t *fs, unsigned char *data, size_t bytes) {
@@ -220,11 +223,11 @@ int main(void) {
     fs_write(fs, (unsigned char *)"world", 5);
     fs_write(fs, (unsigned char *)"what",  4);
 
-    /* generate something larger than blocksize */
-    char *data = malloc(fs->header.blocksize * 3);
-    for (size_t i = 0; i < fs->header.blocksize * 3; i++)
+    /* generate something larger than blocksize and force grow */
+    char *data = malloc(fs->header.blocksize * 10);
+    for (size_t i = 0; i < fs->header.blocksize * 10; i++)
         data[i] = rand() % 0xFF;
-    fs_write(fs, (unsigned char *)data, fs->header.blocksize * 3);
+    fs_write(fs, (unsigned char *)data, fs->header.blocksize * 10);
 
     fs_debug(fs);
 }
